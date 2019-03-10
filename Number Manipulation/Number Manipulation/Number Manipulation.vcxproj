@@ -115,9 +115,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Qfloat.h" />
+    <ClInclude Include="Number.h" />
     <ClInclude Include="QInt.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Qfloat.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Number.cpp" />
     <ClCompile Include="QInt.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
