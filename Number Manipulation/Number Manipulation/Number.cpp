@@ -1,4 +1,5 @@
 #include "Number.h"
+#include <string>
 
 char Number::getBit(const int i) const
 {
@@ -26,5 +27,22 @@ bool *DecToBin(const Number& x)
 	bool *result = new bool[BITS_IN_NUMBER];
 	for (int i = 0; i < BITS_IN_NUMBER; i++)
 		result[BITS_IN_NUMBER - i - 1] = x.getBit(i) == 1 ? true : false;
+	return result;
+}
+
+char *BinToHex(bool *bit)
+{
+	char* result = new char[BITS_IN_NUMBER / 4 + 1];
+	int i = 0;
+	while (i < BITS_IN_NUMBER) {
+		int dec = 0;
+		do {
+			if (bit[i])
+				dec += (int)pow(2, 3 - i % 4);
+			i++;
+		} while (i % 4 != 0);
+		result[(i - 1) / 4] = (dec < 10) ? '0' + dec : 'A' + dec - 10;
+	}
+	result[BITS_IN_NUMBER / 4] = '\0';
 	return result;
 }

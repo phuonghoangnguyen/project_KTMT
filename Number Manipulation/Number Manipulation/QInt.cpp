@@ -2,11 +2,21 @@
 #include <algorithm>
 #include <string>
 
+void QInt::setBinary(const string& bin)
+{
+	int length = bin.length();
+	for (int i = length - 1; i >= 0; i--) 
+		if (bin[i] == '1')
+			setBit(length - i - 1);
+}
+
 QInt::QInt() : Number()
 {}
 
-QInt::QInt(const string&, int base)
+QInt::QInt(const string& s, int base)
 {
+	if (base == 2)
+		setBinary(s);
 }
 
 QInt::QInt(const QInt & other)
@@ -105,24 +115,38 @@ QInt QInt::operator^(const QInt & other) const
 	return result;
 }
 
-/*QInt QInt::operator>>(const int d)
+QInt QInt::operator>>(const int d)
 {
+	// left shift
 	QInt result;
-	for (int i = BITS_IN_NUMBER - d - 1; i >= 0; i--) {
-		if (getBit(i) == 1)
-			result.setBit(i + d);
+	for (int i = 0; i < BITS_IN_NUMBER; i++) {
+		if (getBit(BITS_IN_NUMBER - i - 1) == 1)
+			result.setBit(BITS_IN_NUMBER - i - d - 1);
 	}
 	return result;
-}*/
+}
 
 QInt QInt::operator<<(const int d)
 {
+	// right shift
 	QInt result;
 	for (int i = BITS_IN_NUMBER - d - 1; i >= 0; i--) {
 		if (getBit(i) == 1)
 			result.setBit(i + d);
 	}
 	return result;
+}
+
+QInt QInt::rol(const int d)
+{
+	// left rotation
+	return (*this) << d | (*this) >> (BITS_IN_NUMBER - d);
+}
+
+QInt QInt::ror(const int d)
+{
+	// right rotation
+	return (*this) >> d | (*this) << (BITS_IN_NUMBER - d);
 }
 
 pair<char, char> plusBit(char a, char b) {
@@ -169,3 +193,8 @@ string toSignedBinary(const string & binaryString)
 	return to2sComplement(binaryString.c_str() + 1);
 }
 
+char *DecToHex(const QInt& x)
+{
+	bool *bin = DecToBin(x);
+	return BinToHex(bin);
+}

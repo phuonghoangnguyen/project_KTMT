@@ -6,6 +6,8 @@ using namespace std;
 
 class QInt : public Number 
 {
+private:
+	void setBinary(const string&);
 public:
 	QInt();
 	QInt(const string&, int base);
@@ -20,6 +22,10 @@ public:
 	QInt operator&(const QInt &) const; // and
 	QInt operator|(const QInt &) const; // or
 	QInt operator^(const QInt &) const; // xor
-	//QInt operator>>(const int); // left shift
+	QInt operator>>(const int); // left shift
 	QInt operator<<(const int); // right shift
+	QInt rol(const int); // left rotation
+	QInt ror(const int); // right rotation
 };
+
+char *DecToHex(const QInt&);
