@@ -1,7 +1,6 @@
 #include "QFloat.h"
 #include "QInt.h"
 #include <iostream>
-#include <string>
 
 using namespace std;
 
