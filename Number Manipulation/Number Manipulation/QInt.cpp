@@ -2,12 +2,28 @@
 #include <algorithm>
 #include <string>
 
-void QInt::setBinary(const string& bin)
+void QInt::setBinary(const string & bin)
 {
 	int length = bin.length();
-	for (int i = length - 1; i >= 0; i--) 
+	for (int i = length - 1; i >= 0; i--)
 		if (bin[i] == '1')
 			setBit(length - i - 1);
+}
+
+void QInt::setHex(const string &hex)
+{
+	int length = hex.length();
+	int start = -1;
+	int pos = 0;
+	for (int i = length - 1; i >= 0; i--) {
+		if (pos % BITS_PER_INT == 0)
+		{
+			pos = 0;
+			start++;
+		}
+		m_number[start] |= ((hex[i] >= '0' && hex[i] <= '9') ? hex[i] - '0' : hex[i] + 10 - 'A') << pos;
+		pos += 4;
+	}
 }
 
 QInt::QInt() : Number()
@@ -17,6 +33,8 @@ QInt::QInt(const string& s, int base)
 {
 	if (base == 2)
 		setBinary(s);
+	else if (base == 16)
+		setHex(s);
 }
 
 QInt::QInt(const QInt & other)

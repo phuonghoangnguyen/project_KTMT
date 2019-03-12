@@ -3,6 +3,17 @@
 #include <string>
 #include <cstdlib>
 
+#define BITS_IN_EXPONENT 15
+#define BITS_IN_FRACTION 112
+
+void Qfloat::setBinary(const string &bin)
+{
+	int length = bin.length();
+	for (int i = 0; i < length; i++)
+		if (bin[i] == '1')
+			setBit(BITS_IN_NUMBER - i - 1);
+}
+
 Qfloat::Qfloat() : Number()
 {}
 

@@ -4,13 +4,12 @@
 
 using namespace std;
 
-#define BITS_IN_EXPONENT 15
-#define BITS_IN_FRACTION 112
-
 class Qfloat : public Number
 {	
+private:
 public:
 	Qfloat();
+	void setBinary(const string&);
 	Qfloat(const string&);
 	Qfloat(const Qfloat&);
 };

@@ -1,2 +1,5 @@
-﻿  main.cpp
+﻿  Qfloat.cpp
+e:\document\project\number manipulation\number manipulation\qfloat.cpp(53): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  main.cpp
+  Generating Code...
   Number Manipulation.vcxproj -> E:\Document\Project\Number Manipulation\Debug\Number Manipulation.exe

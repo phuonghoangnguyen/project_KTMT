@@ -8,6 +8,7 @@ class QInt : public Number
 {
 private:
 	void setBinary(const string&);
+	void setHex(const string&);
 public:
 	QInt();
 	QInt(const string&, int base);
