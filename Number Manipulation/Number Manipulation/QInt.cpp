@@ -1,6 +1,6 @@
 #include "QInt.h"
+#include <iostream>
 #include <algorithm>
-#include <string>
 
 void QInt::setBinary(const string & bin)
 {
@@ -26,6 +26,17 @@ void QInt::setHex(const string &hex)
 	}
 }
 
+string toSignedBinary(const string & binaryString);
+void QInt::setDec(const string &dec)
+{
+	string bin = DecToBin(dec);
+	
+	if (bin[0] == '-') 
+		bin = toSignedBinary(bin);
+
+	setBinary(bin);
+}
+
 QInt::QInt() : Number()
 {}
 
@@ -35,6 +46,8 @@ QInt::QInt(const string& s, int base)
 		setBinary(s);
 	else if (base == 16)
 		setHex(s);
+	else if (base == 10)
+		setDec(s);
 }
 
 QInt::QInt(const QInt & other)
@@ -189,6 +202,7 @@ string to2sComplement(const string & binaryString)
 	*/
 	string res = "";
 	string temp = binaryString;
+
 	char carry = '1';
 	for (int i = binaryString.size() - 1; i >= 0; i--) {
 		binaryString[i] == '1' ? temp[i] = '0' : temp[i] = '1';
@@ -196,6 +210,7 @@ string to2sComplement(const string & binaryString)
 		res += p.first;
 		carry = p.second;
 	}
+	
 	reverse(res.begin(), res.end());
 	return res;
 }
@@ -208,7 +223,17 @@ string toSignedBinary(const string & binaryString)
 	*/
 	if (binaryString[0] == '+')
 		return binaryString;
-	return to2sComplement(binaryString.c_str() + 1);
+	string bin = binaryString.c_str() + 1;
+	for (int i = bin.length(); i < BITS_IN_NUMBER; i++)
+		bin = '0' + bin;
+	return to2sComplement(bin);
+}
+
+void ScanQInt(QInt& x)
+{
+	string n;
+	getline(cin, n);
+	x = QInt(n, 10);
 }
 
 char *DecToHex(const QInt& x)

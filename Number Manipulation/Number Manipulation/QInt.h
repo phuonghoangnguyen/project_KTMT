@@ -9,6 +9,7 @@ class QInt : public Number
 private:
 	void setBinary(const string&);
 	void setHex(const string&);
+	void setDec(const string&);
 public:
 	QInt();
 	QInt(const string&, int base);
@@ -29,4 +30,6 @@ public:
 	QInt ror(const int); // right rotation
 };
 
+void ScanQInt(QInt& x);
 char *DecToHex(const QInt&);
+string to2sComplement(const string & binaryString);

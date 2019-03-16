@@ -3,9 +3,6 @@
 #include <string>
 #include <cstdlib>
 
-#define BITS_IN_EXPONENT 15
-#define BITS_IN_FRACTION 112
-
 void Qfloat::setBinary(const string &bin)
 {
 	int length = bin.length();
@@ -45,20 +42,26 @@ string toIEEE754(const string binaryString) {
 	}
 
 	// identify the expBitsonent
-	int i = start;
-	for (; i < binarySize; i++) {
+
+	int pointPosition;
+	int onePosition;
+	for (int i = start; i < binarySize; i++) {
 		if (binaryString[i] == '.')
-			break;
+			pointPosition = i;
+		else if (binaryString[i] == '1')
+			onePosition = i;
 	}
-	expBits = pow(2, BITS_IN_EXPONENT - 1) + i - start;
+
+	expBits = (pow(2, BITS_IN_EXPONENT - 1) - 1) + (pointPosition - onePosition) -
+		(pointPosition > onePosition) ? 1 : 0;
 
 	string result;
 	result += signBit;
 
-	for (i = BITS_IN_EXPONENT - 1; i >= 0; i--)
+	for (int i = BITS_IN_EXPONENT - 1; i >= 0; i--)
 		getBit(expBits, i) == 1 ? result += '1' : result += '0';
 
-	i = start;
+	int i = start;
 	while (i < binarySize) {
 		if (binaryString[i] == '.') {
 			i++;
