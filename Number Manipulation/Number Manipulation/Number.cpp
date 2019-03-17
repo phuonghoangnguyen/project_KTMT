@@ -22,6 +22,12 @@ char getBit(const int n, const int i) {
 	return (n >> i) & 1;
 }
 
+void setBit(int &n, const int i)
+{
+	// set bit at position i from an int n
+	n |= (1 << i);
+}
+
 string mul10(const string &n)
 {
 	if (n[0] == '-')
@@ -233,6 +239,7 @@ string sub(const string &n1, const string &n2)
 
 		result = (char)(diff + '0') + result;
 	}
+
 	return result;
 }
 
@@ -377,14 +384,48 @@ string DecToBin(const string & dec)
 	n = '0' + (string)(dec.c_str() + point_position);
 	if (point_position != len)
 	{
+		len = result.length();
+		bool hasOne = (result != "0");
+		int count = hasOne ? len - 1 : BITS_IN_FRACTION;
 		result += '.';
-		int count = 0;
 		do
 		{
 			n = mul2(n);
 			result += n[0];
-		} while (n != "1" && count != BITS_IN_FRACTION);
+			if (n[0] == '1') {
+				n = sub(n, "1");
+				if (!hasOne)
+				{
+					hasOne = true;
+					count = 0;
+				}
+			}
+			count++;
+		} while (n != "0" && count != BITS_IN_FRACTION + 1);
 	}
+	return result;
+}
+
+string BinToDec(const string & bin)
+{
+	string result = "0";
+
+	int len = bin.length();
+
+	int pointPosition = bin.find('.');
+	if (pointPosition == -1)
+		pointPosition = len;
+
+	for (int i = pointPosition - 1; i >= 0; i--) {
+		if (bin[i] == '1')
+			result = add(result, calculate2power(pointPosition - 1 -i));
+	}
+
+	for (int i = pointPosition + 1; i < len; i++) {
+		if (bin[i] == '1')
+			result = add(result, calculate2power(pointPosition - i));
+	}
+
 	return result;
 }
 

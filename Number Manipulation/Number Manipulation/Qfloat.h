@@ -14,3 +14,6 @@ public:
 	Qfloat(const Qfloat&);
 };
 
+void ScanQfloat(Qfloat& x);
+void PrintQfloat(const Qfloat &x);
+Qfloat binToDec(bool *bit);

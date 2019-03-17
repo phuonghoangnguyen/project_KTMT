@@ -14,8 +14,14 @@ void Qfloat::setBinary(const string &bin)
 Qfloat::Qfloat() : Number()
 {}
 
-Qfloat::Qfloat(const string &)
-{}
+string toIEEE754(const string binaryString);
+
+Qfloat::Qfloat(const string & s)
+{
+	string binaryString = DecToBin(s);
+	binaryString = toIEEE754(binaryString);
+	setBinary(binaryString);
+}
 
 Qfloat::Qfloat(const Qfloat & other)
 {
@@ -23,45 +29,34 @@ Qfloat::Qfloat(const Qfloat & other)
 		m_number[i] = other.m_number[i];
 }
 
-string toIEEE754(const string binaryString) {
+string toIEEE754(const string binaryString) 
+{
+	string result;
 	// convert a binary float string into the binary format using IEEE-754 Standard
 	const int binarySize = binaryString.length();
 	const int qfloatSize = INTS_IN_NUMBER * BITS_PER_INT;
-	char signBit;
+
+	// identify the sign bit
+	char signBit = (binaryString[0] == '-') ? '1' : '0';
+	result += signBit;
+
+	// identify the exponent bits
 	int expBits;
 
-	int start;
-	// identify the signBit
-	if (binaryString[0] == '-') {
-		signBit = '1';
-		start = 2;
-	}
-	else {
-		signBit = '0';
-		start = 1;
-	}
+	int pointPosition = binaryString.find('.');
+	if (pointPosition == -1)
+		pointPosition = binarySize;
 
-	// identify the expBitsonent
+	int onePosition = binaryString.find('1');
 
-	int pointPosition;
-	int onePosition;
-	for (int i = start; i < binarySize; i++) {
-		if (binaryString[i] == '.')
-			pointPosition = i;
-		else if (binaryString[i] == '1')
-			onePosition = i;
-	}
-
-	expBits = (pow(2, BITS_IN_EXPONENT - 1) - 1) + (pointPosition - onePosition) -
-		(pointPosition > onePosition) ? 1 : 0;
-
-	string result;
-	result += signBit;
+	expBits = (pow(2, BITS_IN_EXPONENT - 1) - 1) + (pointPosition - onePosition);
+	if (pointPosition > onePosition)
+		expBits -= 1;
 
 	for (int i = BITS_IN_EXPONENT - 1; i >= 0; i--)
 		getBit(expBits, i) == 1 ? result += '1' : result += '0';
 
-	int i = start;
+	int i = onePosition + 1;
 	while (i < binarySize) {
 		if (binaryString[i] == '.') {
 			i++;
@@ -69,5 +64,54 @@ string toIEEE754(const string binaryString) {
 		}
 		result += binaryString[i++];
 	}
+	return result;
+}
+
+void ScanQfloat(Qfloat & x)
+{
+	string n;
+	getline(cin, n);
+	x = Qfloat(n);
+}
+
+void PrintQfloat(const Qfloat & x)
+{
+	string result;
+
+	int expBits = 0;
+	for (int i = 0; i < BITS_IN_EXPONENT; i++) {
+		if (x.getBit(BITS_IN_NUMBER - i - 2) == 1)
+			setBit(expBits, i);
+	}
+	expBits -= pow(2, BITS_IN_EXPONENT - 1) - 1;
+
+	for (int i = 0; i < BITS_IN_FRACTION; i++) {
+		result = (x.getBit(i) == 1) ? ('1' + result) : ('0' + result);
+	}
+	result = "1." + result;
+
+	if (expBits < 0)
+	{
+		expBits = -expBits;
+		for (int i = 0; i < expBits; i++)
+			result = '0' + result;
+	}
+	int pointPosition = 1;
+	for (int i = 0; i < expBits; i++)
+		swap(result[pointPosition + i], result[pointPosition + i + 1]);
+
+	result = BinToDec(result);
+	if (x.getBit(BITS_IN_NUMBER - 1) == 1)
+		result = '-' + result;
+
+	cout << result;
+}
+
+Qfloat binToDec(bool * bit)
+{
+	Qfloat result;
+	for (int i = 0; i < BITS_IN_NUMBER; i++)
+		if (bit[i])
+			result.setBit(BITS_IN_NUMBER - 1 - i);
 	return result;
 }

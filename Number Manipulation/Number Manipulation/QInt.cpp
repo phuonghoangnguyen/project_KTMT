@@ -236,8 +236,40 @@ void ScanQInt(QInt& x)
 	x = QInt(n, 10);
 }
 
+void PrintQInt(const QInt & x)
+{
+	string number = "0";
+	if (x.getBit(BITS_IN_NUMBER - 1) == 1)
+	{
+		number = calculate2power(BITS_IN_NUMBER - 1);
+		number = '-' + number;
+	}
+	for (int i = 0; i < BITS_IN_NUMBER - 1; i++) 
+		if (x.getBit(i) == 1)
+			number = add(number, calculate2power(i));
+
+	while (number[0] == '0')
+		number = number.c_str() + 1;
+	while (number[0] == '-' && number[1] == '0')
+	{
+		number = number.c_str() + 2;
+		number = '-' + number;
+	}
+
+	cout << number;
+}
+
 char *DecToHex(const QInt& x)
 {
 	bool *bin = DecToBin(x);
 	return BinToHex(bin);
+}
+
+QInt BinToDec(bool * bit)
+{
+	QInt result;
+	for (int i = 0; i < BITS_IN_NUMBER; i++) 
+		if (bit[i])
+			result.setBit(BITS_IN_NUMBER - 1 - i);
+	return result;
 }

@@ -31,5 +31,6 @@ public:
 };
 
 void ScanQInt(QInt& x);
+void PrintQInt(const QInt& x);
 char *DecToHex(const QInt&);
-string to2sComplement(const string & binaryString);
+QInt BinToDec(bool *bit);

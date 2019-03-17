@@ -21,13 +21,14 @@ public:
 };
 
 char getBit(const int n, const int i); // get bit at position i from int n
+void setBit(int &n, const int i); // get bit at position i from int n
 string add(const string &, const string &); // return string1+string2
 string sub(const string &, const string &); // return string1-string2
 string mul2(const string &); // return string*2
 string div2(const string &); // return string/2
 string calculate2power(const int exp); // return 2^exp (string)
-string DecToBin(const string &dec);
-string div10(const string &n);
+string DecToBin(const string &dec); // convert a decimal string into a binary string 
+string BinToDec(const string &bin); // convert a binary string into a decimal string 
 
 // --------------- Main Function -------------- //
 bool *DecToBin(const Number&);
