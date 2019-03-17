@@ -80,7 +80,7 @@ void PrintQfloat(const Qfloat & x)
 
 	int expBits = 0;
 	for (int i = 0; i < BITS_IN_EXPONENT; i++) {
-		if (x.getBit(BITS_IN_NUMBER - i - 2) == 1)
+		if (x.getBit(BITS_IN_NUMBER - 1 - BITS_IN_EXPONENT + i) == 1)
 			setBit(expBits, i);
 	}
 	expBits -= pow(2, BITS_IN_EXPONENT - 1) - 1;
