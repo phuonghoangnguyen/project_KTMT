@@ -2,9 +2,11 @@
 #include "Number.h"
 #include <iostream>
 
+#define BASE int(pow(10,9))
+
 using namespace std;
 
-class QInt : public Number 
+class QInt : public Number
 {
 private:
 	void setBinary(const string&);
@@ -24,10 +26,14 @@ public:
 	QInt operator&(const QInt &) const; // and
 	QInt operator|(const QInt &) const; // or
 	QInt operator^(const QInt &) const; // xor
-	QInt operator>>(const int); // left shift
-	QInt operator<<(const int); // right shift
-	QInt rol(const int); // left rotation
-	QInt ror(const int); // right rotation
+	QInt operator>>(const int) const; // left shift
+	QInt operator<<(const int) const; // right shift
+	QInt rol(const int) const; // left rotation
+	QInt ror(const int) const; // right rotation
+	QInt operator+(const QInt &) const; // +
+	QInt operator-(const QInt &) const; // -
+	QInt operator*(const QInt &) const; // *
+	QInt operator/(const QInt &) const; // /
 };
 
 void ScanQInt(QInt& x);

@@ -8,6 +8,7 @@ char Number::getBit(const int i) const
 }
 
 void Number::setBit(const int i) {
+	// set bit at position i from m_number
 	m_number[i / BITS_PER_INT] |= (1 << i % BITS_PER_INT);
 }
 
@@ -252,11 +253,47 @@ string mul(const string & n1, const string & n2)
 	if (n1[0] == '-' && n2[0] != '-')
 		return '-' + mul(n2, n1.c_str() + 1);
 
-	string result("0");
-
 	int len1 = n1.length();
 	int len2 = n2.length();
 
+	int pointPosition1 = n1.find(".");
+	if (pointPosition1 == -1)
+		pointPosition1 = len1;
+
+	int pointPosition2 = n2.find(".");
+	if (pointPosition2 == -1)
+		pointPosition2 = len2;
+
+	string number1 = n1;
+	string number2 = n2;
+	string result;
+
+	if (pointPosition1 != len1 || pointPosition2 != len2)
+	{
+		// point position after calculation
+		int pointPosition = 0;
+
+		if (pointPosition1 != len1) {
+			for (int i = len1 - 1 - pointPosition1; i > 0; i--)
+				number1 = mul10(number1);
+			pointPosition += len1 - 1 - pointPosition1;
+		}
+
+		if (pointPosition2 != len2) {
+			for (int i = len2 - 1 - pointPosition2; i > 0; i--)
+				number2 = mul10(number2);
+			pointPosition += len2 - 1 - pointPosition2;
+		}
+
+		result = mul(number1, number2);
+
+		for (int i = 0; i < pointPosition; i++)
+			result = div10(result);
+
+		return result;
+	}
+
+	result = "0";
 	for (int i = len2 - 1; i >= 0; i--)
 	{
 		int product;
@@ -282,32 +319,7 @@ string mul(const string & n1, const string & n2)
 
 string mul2(const string & n)
 {
-	if (n[0] == '-')
-		return '-' + mul2(n.c_str() + 1);
-
-	string result = n;
-	int len = n.length();
-
-	// find the point position in n
-	int point_position = n.find('.');
-
-	if (point_position != -1) {
-		// erase the point from n
-		result.erase(result.begin() + point_position);
-
-		// find the point position after calculation 
-		point_position = len - 1 - point_position;
-	}
-	else
-		return mul(result, "2");
-
-	if (result[0] == '0')
-		result = result.c_str() + 1;
-	result = mul(result, "2");
-	for (int i = 0; i < point_position; i++)
-		result = div10(result);
-
-	return result;
+	return mul("2", n);
 }
 
 string div2(const string &n)
@@ -343,14 +355,19 @@ string calculate2power(const int exp) // return 2^exp (string)
 {
 	if (exp == 0)
 		return "1";
-	string result = "1";
-	if (exp > 0)
-		for (int i = 0; i < exp; i++)
-			result = mul2(result);
-	else if (exp < 0)
-		for (int i = -exp; i > 0; i--)
-			result = div2(result);
-	return result;
+	if (exp == 1)
+		return "2";
+	if (exp == -1)
+		return "0.5";
+
+	string temp = calculate2power(exp / 2);
+	if (exp % 2 == 0)
+		return mul(temp, temp);
+	else {
+		if (exp > 0)
+			return mul2(mul(temp, temp));
+		return div2(mul(temp, temp));
+	}
 }
 
 string DecToBin(const string & dec)

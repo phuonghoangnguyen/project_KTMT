@@ -1,5 +1,4 @@
-#include "QInt.h"
-#include <iostream>
+﻿#include "QInt.h"
 #include <algorithm>
 
 void QInt::setBinary(const string & bin)
@@ -146,7 +145,7 @@ QInt QInt::operator^(const QInt & other) const
 	return result;
 }
 
-QInt QInt::operator>>(const int d)
+QInt QInt::operator>>(const int d) const
 {
 	// left shift
 	QInt result;
@@ -157,7 +156,7 @@ QInt QInt::operator>>(const int d)
 	return result;
 }
 
-QInt QInt::operator<<(const int d)
+QInt QInt::operator<<(const int d) const
 {
 	// right shift
 	QInt result;
@@ -168,13 +167,13 @@ QInt QInt::operator<<(const int d)
 	return result;
 }
 
-QInt QInt::rol(const int d)
+QInt QInt::rol(const int d) const
 {
 	// left rotation
 	return (*this) << d | (*this) >> (BITS_IN_NUMBER - d);
 }
 
-QInt QInt::ror(const int d)
+QInt QInt::ror(const int d) const
 {
 	// right rotation
 	return (*this) >> d | (*this) << (BITS_IN_NUMBER - d);
@@ -238,6 +237,11 @@ void ScanQInt(QInt& x)
 
 void PrintQInt(const QInt & x)
 {
+	if (x == QInt("0", 10))
+	{
+		cout << "0";
+		return;
+	}
 	string number = "0";
 	if (x.getBit(BITS_IN_NUMBER - 1) == 1)
 	{
@@ -271,5 +275,93 @@ QInt BinToDec(bool * bit)
 	for (int i = 0; i < BITS_IN_NUMBER; i++) 
 		if (bit[i])
 			result.setBit(BITS_IN_NUMBER - 1 - i);
+	return result;
+}
+
+QInt QInt::operator+(const QInt &other) const
+{
+	QInt result;
+	int sum;
+	int carry = 0;
+	for (int i = 0; i < BITS_IN_NUMBER; i++) {
+		sum = this->getBit(i) + other.getBit(i) + carry;
+		carry = (sum > 1) ? 1 : 0;
+		sum %= 2;
+		if (sum == 1)
+			result.setBit(i);
+	}
+
+	QInt zero("0", 10);
+	if (((*this) < zero && other < zero && result > zero) || 
+		((*this)  > zero && other > zero && result < zero))
+		cout << "Overflow!!!\n";
+
+	return result;
+}
+
+QInt QInt::operator-(const QInt & other) const
+{
+	QInt negativeOther = ~other;
+	QInt one("1", 2);
+	negativeOther = negativeOther + one;
+	return (*this) + negativeOther;
+}
+
+QInt QInt::operator*(const QInt & other) const
+{
+	QInt zero("0", 10);
+
+	if (*this == zero || other == zero)
+		return zero;
+	if (*this < zero && other > zero)
+		return zero - (zero - (*this)) * other;
+	if (*this > zero && other < zero)
+		return zero - (zero - other) * (*this);
+	if (*this < zero && other < zero)
+		return (zero - other) * (zero - *this);
+
+	QInt result; 
+
+	for (int i = 0; i < BITS_IN_NUMBER; i++)
+		if (getBit(i) == 1)
+			result = result + (other << i);
+
+	return result;
+}
+
+QInt QInt::operator/(const QInt & other) const
+{
+	QInt zero("0", 10);
+
+	if (other == zero)
+	{
+		cout << "DIVIDED BY 0\n";
+		return zero;
+	}
+	if (*this == zero)
+		return zero;
+	if (*this < zero && other > zero)
+		return zero - (zero - (*this)) / other;
+	if (*this > zero && other < zero)
+		return zero - (zero - other) / (*this);
+	if (*this < zero && other < zero)
+		return (zero - other) / (zero - *this);
+
+	QInt result = *this;
+	QInt remainder = zero;
+
+	for (int i = 0; i < BITS_IN_NUMBER; i++)
+	{
+		remainder = remainder << 1;                  //
+		if (result.getBit(BITS_IN_NUMBER - 1) == 1)  //    [remainder, result] <<= 1
+			remainder.setBit(0);                     //
+		result = result << 1;                        //
+
+		remainder = remainder - other;
+		if (remainder < zero)
+			remainder = remainder + other;
+		else 
+			result.setBit(0);
+	}
 	return result;
 }

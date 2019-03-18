@@ -6,10 +6,13 @@
 using namespace std;
 
 int main() {
-	/*QInt a;
+	QInt a;
 	ScanQInt(a);
+	QInt b;
+	ScanQInt(b);
+	QInt c = a * b;
 
-	bool *bin = DecToBin(a);
+	bool *bin = DecToBin(c);
 	cout << "BIN: ";
 	for (int i = 0; i < BITS_IN_NUMBER; i++) {
 		if (bin[i])
@@ -18,17 +21,17 @@ int main() {
 	}
 	cout << endl;
 
-	char *hex = DecToHex(a);
+	char *hex = DecToHex(c);
 	cout << "HEX: " << hex << endl;
 
 	cout << "DEC: ";
-	PrintQInt(a);
+	PrintQInt(c);
 	cout << endl;
 
 	delete[] bin;
-	delete[] hex;*/
+	delete[] hex;
 
-	Qfloat a;
+	/*Qfloat a;
 	ScanQfloat(a);
 
 	bool *bin = DecToBin(a);
@@ -46,7 +49,6 @@ int main() {
 	PrintQfloat(a);
 	cout << endl;
 
-	delete[] bin;
-
+	delete[] bin;*/
 	return 0;
 }

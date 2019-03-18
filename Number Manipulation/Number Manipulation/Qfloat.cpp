@@ -1,7 +1,5 @@
 #include "Number.h"
 #include "QFloat.h"
-#include <string>
-#include <cstdlib>
 
 void Qfloat::setBinary(const string &bin)
 {

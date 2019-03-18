@@ -1,13 +1,16 @@
 #pragma once
+#include <iostream>
 #include <string>
 
 using namespace std;
 
+// constants for Number
 #define BITS_PER_BYTE 8 // Each byte has 4 bits
 #define BITS_IN_NUMBER 128 // Each Number has 128 bits
 #define INTS_IN_NUMBER 4 // Each Number has 4 ints
 #define BITS_PER_INT 32 // number of bits per int
 
+// constants for Qfloat
 #define BITS_IN_EXPONENT 15
 #define BITS_IN_FRACTION 112
 
