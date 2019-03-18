@@ -2,7 +2,6 @@
 #include "Number.h"
 #include <iostream>
 
-#define BASE int(pow(10,9))
 
 using namespace std;
 
