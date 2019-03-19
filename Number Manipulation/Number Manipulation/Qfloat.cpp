@@ -32,7 +32,6 @@ string toIEEE754(const string binaryString)
 	string result;
 	// convert a binary float string into the binary format using IEEE-754 Standard
 	const int binarySize = binaryString.length();
-	const int qfloatSize = INTS_IN_NUMBER * BITS_PER_INT;
 
 	// identify the sign bit
 	char signBit = (binaryString[0] == '-') ? '1' : '0';
@@ -88,15 +87,22 @@ void PrintQfloat(const Qfloat & x)
 	}
 	result = "1." + result;
 
-	if (expBits < 0)
+	if (expBits > 0)
 	{
+		int pointPosition = 1;
+		for (int i = 0; i < expBits; i++)
+			result = mul10(result);
+	}
+	else
+	{
+		for (int i = expBits; i < 0; i++)
+			result = '0' + result;
+
+		int pointPosition = result.find('.');
 		expBits = -expBits;
 		for (int i = 0; i < expBits; i++)
-			result = '0' + result;
+			result = div10(result);
 	}
-	int pointPosition = 1;
-	for (int i = 0; i < expBits; i++)
-		swap(result[pointPosition + i], result[pointPosition + i + 1]);
 
 	result = BinToDec(result);
 	if (x.getBit(BITS_IN_NUMBER - 1) == 1)

@@ -27,6 +27,8 @@ char getBit(const int n, const int i); // get bit at position i from int n
 void setBit(int &n, const int i); // get bit at position i from int n
 string add(const string &, const string &); // return string1+string2
 string sub(const string &, const string &); // return string1-string2
+string mul10(const string &n);
+string div10(const string &n);
 string mul2(const string &); // return string*2
 string div2(const string &); // return string/2
 string calculate2power(const int exp); // return 2^exp (string)

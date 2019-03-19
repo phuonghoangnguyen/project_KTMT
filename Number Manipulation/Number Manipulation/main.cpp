@@ -6,7 +6,7 @@
 using namespace std;
 
 int main() {
-	QInt a;
+	/*QInt a;
 	ScanQInt(a);
 	QInt b;
 	ScanQInt(b);
@@ -29,9 +29,9 @@ int main() {
 	cout << endl;
 
 	delete[] bin;
-	delete[] hex;
+	delete[] hex;*/
 
-	/*Qfloat a;
+	Qfloat a;
 	ScanQfloat(a);
 
 	bool *bin = DecToBin(a);
@@ -49,6 +49,6 @@ int main() {
 	PrintQfloat(a);
 	cout << endl;
 
-	delete[] bin;*/
+	delete[] bin;
 	return 0;
 }

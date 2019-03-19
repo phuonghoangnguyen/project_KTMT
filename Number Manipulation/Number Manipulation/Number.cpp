@@ -403,7 +403,7 @@ string DecToBin(const string & dec)
 	{
 		len = result.length();
 		bool hasOne = (result != "0");
-		int count = hasOne ? len - 1 : BITS_IN_FRACTION;
+		int count = 0;
 		result += '.';
 		do
 		{
@@ -418,7 +418,7 @@ string DecToBin(const string & dec)
 				}
 			}
 			count++;
-		} while (n != "0" && count != BITS_IN_FRACTION + 1);
+		} while (n != "0" && count < BITS_IN_FRACTION);
 	}
 	return result;
 }
