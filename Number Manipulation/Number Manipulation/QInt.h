@@ -15,6 +15,7 @@ public:
 	QInt();
 	QInt(const string&, int base);
 	QInt(const QInt&);
+	bool operator!=(const QInt &) const;
 	bool operator==(const QInt &) const;
 	bool operator>(const QInt &) const;
 	bool operator<(const QInt &) const;

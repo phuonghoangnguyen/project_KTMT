@@ -55,6 +55,11 @@ QInt::QInt(const QInt & other)
 		m_number[i] = other.m_number[i];
 }
 
+bool QInt::operator!=(const QInt & other) const
+{
+	return !(*this == other);
+}
+
 bool QInt::operator==(const QInt & other) const
 {
 	for (int i = 0; i < INTS_IN_NUMBER; i++)
@@ -65,28 +70,27 @@ bool QInt::operator==(const QInt & other) const
 
 bool QInt::operator>(const QInt &other) const
 {
-	bool thisHasSign = this->getBit(BITS_IN_NUMBER - 1) == 1 ? true : false;
-	bool otherHasSign = other.getBit(BITS_IN_NUMBER - 1) == 1 ? true : false;
-	if (!thisHasSign && otherHasSign)
-		return true;
-	else if (thisHasSign && !otherHasSign)
-		return false;
-	for (int i = BITS_IN_NUMBER - 1; i >= 0; i--) {
-		if (this->getBit(i) > other.getBit(i))
-			return true;
-	}
-	return false;
+	return other < (*this);
 }
 
 bool QInt::operator<(const QInt &other) const
 {
 	bool thisHasSign = this->getBit(BITS_IN_NUMBER - 1) == 1 ? true : false;
 	bool otherHasSign = other.getBit(BITS_IN_NUMBER - 1) == 1 ? true : false;
+
 	if (!thisHasSign && otherHasSign)
 		return false;
-	else if (thisHasSign && !otherHasSign)
+	if (thisHasSign && !otherHasSign)
 		return true;
+	if (thisHasSign && otherHasSign)
+	{
+		QInt zero("0", 10);
+		return (zero - other) < (zero - (*this));
+	}
+
 	for (int i = BITS_IN_NUMBER - 1; i >= 0; i--) {
+		if (this->getBit(i) > other.getBit(i))
+			return false;
 		if (this->getBit(i) < other.getBit(i))
 			return true;
 	}
