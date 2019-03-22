@@ -14,10 +14,13 @@ Qfloat::Qfloat() : Number()
 
 string toIEEE754(const string binaryString);
 
-Qfloat::Qfloat(const string & s)
+Qfloat::Qfloat(const string & s, int base)
 {
-	string binaryString = DecToBin(s);
-	binaryString = toIEEE754(binaryString);
+	string binaryString;
+	if (base == 10) {
+		binaryString = DecToBin(s);
+		binaryString = toIEEE754(binaryString);
+	}
 	setBinary(binaryString);
 }
 
@@ -68,7 +71,7 @@ void ScanQfloat(Qfloat & x)
 {
 	string n;
 	getline(cin, n);
-	x = Qfloat(n);
+	x = Qfloat(n, 10);
 }
 
 void PrintQfloat(const Qfloat & x)

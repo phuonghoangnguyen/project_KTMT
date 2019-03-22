@@ -10,7 +10,7 @@ private:
 public:
 	Qfloat();
 	void setBinary(const string&);
-	Qfloat(const string&);
+	Qfloat(const string&, int base);
 	Qfloat(const Qfloat&);
 };
 

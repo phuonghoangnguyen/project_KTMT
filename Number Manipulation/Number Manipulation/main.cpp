@@ -6,37 +6,6 @@
 using namespace std;
 
 int main() {
-	QInt a;
-	ScanQInt(a);
-	QInt b;
-	ScanQInt(b);
-	cout << "a:\n";
-	bool *bin = DecToBin(a);
-	cout << "BIN: ";
-	for (int i = 0; i < BITS_IN_NUMBER; i++) {
-		if (bin[i])
-			cout << 1;
-		else cout << 0;
-	}
-	cout << endl;
-
-	cout << "b:\n";
-    bin = DecToBin(b);
-	cout << "BIN: ";
-	for (int i = 0; i < BITS_IN_NUMBER; i++) {
-		if (bin[i])
-			cout << 1;
-		else cout << 0;
-	}
-	cout << endl;
-
-	if (a < b)
-		cout << "a < b";
-	else
-		cout << "a >= b";
-
-	delete[] bin;
-
 	/*QInt c = a - b;
 
 	bool *bin = DecToBin(c);
@@ -58,7 +27,7 @@ int main() {
 	delete[] bin;
 	delete[] hex;*/
 
-	/*Qfloat a;
+	Qfloat a;
 	ScanQfloat(a);
 
 	bool *bin = DecToBin(a);
@@ -77,5 +46,5 @@ int main() {
 	cout << endl;
 
 	delete[] bin;
-	return 0;*/
+	return 0;
 }
