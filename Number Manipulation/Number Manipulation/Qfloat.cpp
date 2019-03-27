@@ -16,9 +16,9 @@ string toIEEE754(const string binaryString);
 
 Qfloat::Qfloat(const string & s, int base)
 {
-	string binaryString;
+	string binaryString = s;
 	if (base == 10) {
-		binaryString = DecToBin(s);
+		binaryString = DecToBin(binaryString);
 		binaryString = toIEEE754(binaryString);
 	}
 	setBinary(binaryString);

@@ -470,3 +470,15 @@ char *BinToHex(bool *bit)
 	result[BITS_IN_NUMBER / 4] = '\0';
 	return result;
 }
+
+void PrintBin(const Number &a)
+{
+	bool *bin = DecToBin(a);
+	cout << "BIN: ";
+	for (int i = 0; i < BITS_IN_NUMBER; i++) {
+		if (bin[i])
+			cout << 1;
+		else cout << 0;
+	}
+	cout << endl;
+}

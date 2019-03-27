@@ -153,9 +153,9 @@ QInt QInt::operator>>(const int d) const
 {
 	// left shift
 	QInt result;
-	for (int i = 0; i < BITS_IN_NUMBER; i++) {
-		if (getBit(BITS_IN_NUMBER - i - 1) == 1)
-			result.setBit(BITS_IN_NUMBER - i - d - 1);
+	for (int i = d; i < BITS_IN_NUMBER; i++) {
+		if (getBit(i) == 1)
+			result.setBit(i - d);
 	}
 	return result;
 }
@@ -347,9 +347,9 @@ QInt QInt::operator/(const QInt & other) const
 	if (*this < zero && other > zero)
 		return zero - (zero - (*this)) / other;
 	if (*this > zero && other < zero)
-		return zero - (zero - other) / (*this);
+		return zero - (*this) / (zero - other);
 	if (*this < zero && other < zero)
-		return (zero - other) / (zero - *this);
+		return (zero - *this) / (zero - other);
 
 	QInt result = *this;
 	QInt remainder = zero;
@@ -368,4 +368,11 @@ QInt QInt::operator/(const QInt & other) const
 			result.setBit(0);
 	}
 	return result;
+}
+
+void PrintHex(const QInt &c)
+{
+	cout << "HEX: ";
+	char *hex = DecToHex(c);
+	cout << hex << endl;
 }

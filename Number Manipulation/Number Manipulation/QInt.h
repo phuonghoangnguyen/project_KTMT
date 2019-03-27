@@ -36,6 +36,8 @@ public:
 	QInt operator/(const QInt &) const; // /
 };
 
+void PrintHex(const QInt &); // print a QInt in hexadecimal form
+// --------------------- Main Function --------------------//
 void ScanQInt(QInt& x);
 void PrintQInt(const QInt& x);
 char *DecToHex(const QInt&);

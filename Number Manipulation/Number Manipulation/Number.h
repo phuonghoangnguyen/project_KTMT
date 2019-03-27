@@ -34,6 +34,7 @@ string div2(const string &); // return string/2
 string calculate2power(const int exp); // return 2^exp (string)
 string DecToBin(const string &dec); // convert a decimal string into a binary string 
 string BinToDec(const string &bin); // convert a binary string into a decimal string 
+void PrintBin(const Number &); // print a Number in binary form
 
 // --------------- Main Function -------------- //
 bool *DecToBin(const Number&);
